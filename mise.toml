@@ -1,0 +1,49 @@
+min_version = { soft = "2025.11.0" }
+
+[tools]
+"rust" = { version = "1.85.0", profile = "default", components = "rustfmt,clippy" }
+
+[tasks.cleancache]
+run = "rm -rf .cache"
+hide = true           # hide this task from the list of tasks
+
+[tasks.clean]
+description = "Clean the Cargo project"
+depends = ["cleancache"]
+run = "cargo clean"                     # runs as a shell command
+
+[tasks.format]
+description = "Format the Rust code"
+depends = ["clean"]
+run = "cargo fmt -- --check"
+alias = "fmt"
+
+[tasks.check]
+description = "Fix any compile errors and warnings"
+depends = ["clean", "format"]
+run = "cargo check"
+alias = "chk"                                       # alias for check
+
+[tasks.lint]
+description = "Fix any lint warnings with clippy"
+depends = ["clean", "format", "check"]
+env = { RUST_BACKTRACE = "1" }                    # show backtrace on error
+# Fix any lint warnings with clippy component
+run = """
+#!/usr/bin/env bash
+cargo clippy --allow-dirty --allow-staged --allow-no-vcs --fix # Linting and fix lint warnings
+"""
+alias = "lint"
+
+[tasks.build]
+description = "Build the Cargo project"
+depends = ["check", "lint"]
+run = "cargo build --release"
+sources = ['Cargo.toml', 'src/**/*.rs']       # recompile when these files change
+outputs = ['target/release/calculate_length']
+alias = "b"
+
+[tasks.ci] # only dependencies to be run
+description = "Run CI tasks"
+depends = ["check", "lint", "build"]
+alias = "ci"
