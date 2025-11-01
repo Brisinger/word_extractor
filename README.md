@@ -1,6 +1,7 @@
 # First Word Extractor
 
 A Rust command-line utility that extracts the first and second words from a given string input.
+The project serves as both a functional word extraction utility and an educational example of Rust's ownership and borrowing system, with detailed comments explaining the algorithms and memory management principles.
 
 ## Features
 
