@@ -39,8 +39,8 @@ alias = "lint"
 description = "Build the Cargo project"
 depends = ["check", "lint"]
 run = "cargo build --release"
-sources = ['Cargo.toml', 'src/**/*.rs']       # recompile when these files change
-outputs = ['target/release/calculate_length']
+sources = ['Cargo.toml', 'src/**/*.rs'] # recompile when these files change
+outputs = ['target/release/first_word']
 alias = "b"
 
 [tasks.ci] # only dependencies to be run

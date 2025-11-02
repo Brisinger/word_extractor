@@ -49,6 +49,15 @@ fn main() {
     } else {
         println!("The second word is not available");
     }
+
+    println!("\nIdomatic way in rust to get the second word from a string of words\n");
+    // idomatic way in rust to get the second word from a string of words
+    // each word is separated by a space
+    if let Some(word) = extract_second_word(&s) {
+        println!("The second word: {word}");
+    } else {
+        println!("The second word is not available");
+    }
 }
 
 /// Returns the slice of the first word in a string of words
@@ -128,4 +137,31 @@ fn second_word(s: &str) -> &str {
         };
     }
     &s[start..end]
+}
+
+/// Extract the second word from a string of words
+///
+/// # Arguments
+///
+/// * `s` - A string slice that holds the string of words. Words are separated by spaces.
+///
+/// # Returns
+///
+/// An option that holds the second word if available
+///
+/// # Examples
+///
+/// let s = String::from("hello world");
+/// let word = extract_second_word(&s[..]);
+/// assert_eq!(word, Some("world"));
+///
+fn extract_second_word(s: &str) -> Option<&str> {
+    // split the string into words
+    let mut words = s.split(' ');
+
+    // consume the first word
+    words.next();
+
+    // return the second word if available
+    words.next()
 }
